@@ -1,7 +1,23 @@
-/*global test, ok, Minesweeper*/
+/*global test, Minesweeper, module, ok*/
 
 $(document).on('ready', function () {
-	test('Views.StartGame', 1, function () {
-		ok(Minesweeper.Views.StartGame);
+
+	module("Views.StartGame", {
+		setup: function () {
+			this.view = new Minesweeper.Views.StartGame();
+
+			this.originalHtml = $.prototype.html;
+		},
+		teardown: function () {
+			$.prototype.html = this.originalHtml;
+		}
+	});
+
+	test("`render` injects template into dom", 1, function () {
+		$.prototype.html = function () {
+			ok(true);
+		};
+
+		this.view.render();
 	});
 });

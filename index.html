@@ -5,6 +5,7 @@
 	<meta http-equiv='cache-control' content='no-cache' />
 	<link rel='stylesheet' href='style.css' type='text/css' />
 	<script type='text/javascript' src='js/jquery.js'></script>
+	<script type='text/javascript' src='js/jquery.mustache.js'></script>
 	<script type='text/javascript' src='js/mustache.js'></script>
 	<script type='text/javascript' src='js/underscore.js'></script>
 	<script type='text/javascript' src='js/backbone.js'></script>
@@ -12,6 +13,11 @@
 </head>
 <body>
 	<div id='app'>
+	</div>
+	
+	<!-- templates -->
+
+	<script id='start-screen' type='text/template'>
 		<div class='start-screen center'>
 			<span class='wrapper'>
 				<h1>Play Minesweeper!</h1>
@@ -23,6 +29,6 @@
 				</ul>
 			</span>
 		</div>
-	</div>
+	</script>
 </body>
 </html>
