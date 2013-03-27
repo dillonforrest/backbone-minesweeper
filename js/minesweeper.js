@@ -9,6 +9,24 @@
 
 		Views = {
 			StartGame: Backbone.View.extend({
+				events: {
+					'click .easy': 'getEasyLevel',
+					'click .intermediate': 'getIntermediateLevel',
+					'click .hard': 'getHardLevel'
+				},
+
+				getEasyLevel: function () {
+					return;
+				},
+
+				getIntermediateLevel: function () {
+					return;
+				},
+
+				getHardLevel: function () {
+					return;
+				},
+
 				render: function () {
 					return $('#start-screen').html();
 				}
