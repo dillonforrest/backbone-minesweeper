@@ -4,14 +4,16 @@
 
 $(document).on('ready', function () {
 
-	var StartGame = Minesweeper.Views.StartGame;
+	var StartGameFn = Minesweeper.Views.StartGame.prototype;
 
 	module("Minesweeper initialization", {
 		setup: function () {
-			this.originalRender = StartGame.prototype.render;
+			this.originalAdd = $.Mustache.addFromDom;
+			this.originalInit = StartGameFn.initialize;
 		},
 		teardown: function () {
-			StartGame.prototype.render = this.originalRender;
+			$.Mustache.addFromDom = this.originalAdd;
+			StartGameFn.initialize = this.originalInit;
 		}
 	});
 
@@ -28,9 +30,17 @@ $(document).on('ready', function () {
 		ok(Minesweeper.Views);
 	});
 
-	test("`initialize` calls `render` on `StartGame` view", 1, function () {
-		StartGame.prototype.render = function () {
-			ok(true, "`render` called");
+	test("`initialize` adds templates", 1, function () {
+		$.Mustache.addFromDom = function () {
+			ok(true);
+		};
+
+		Minesweeper.initialize();
+	});
+
+	test("`initialize` renders StartGame view instance", 1, function () {
+		StartGameFn.initialize = function () {
+			ok(true);
 		};
 
 		Minesweeper.initialize();

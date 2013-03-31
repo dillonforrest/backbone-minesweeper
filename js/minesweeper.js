@@ -15,6 +15,10 @@
 					'click .hard': 'getHardLevel'
 				},
 
+				initialize: function () {
+					this.render();
+				},
+
 				getEasyLevel: function () {
 					return;
 				},
@@ -28,15 +32,18 @@
 				},
 
 				render: function () {
-					return $('#start-screen').html();
+					$app.mustache('start-screen', {});
+					this.setElement($app);
+					return this;
 				}
 			})
 		};
 
 		return {
 			initialize: function () {
-				var game = new Views.StartGame();
-				$app.append(game.render());
+				var game;
+				$.Mustache.addFromDom();
+				game = new Views.StartGame();
 			},
 			Views: Views
 		};
