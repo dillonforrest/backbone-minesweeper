@@ -45,4 +45,8 @@ $(document).on('ready', function () {
 
 		Minesweeper.initialize();
 	});
+
+	test("Minesweeper.Collections", 1, function () {
+		ok(Minesweeper);
+	});
 });

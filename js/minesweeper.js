@@ -5,30 +5,48 @@
 		$app;
 
 	this.Minesweeper = (function () {
-		var Views;
+		var Views, Collections;
+
+		Collections = {
+		};
 
 		Views = {
+			Game: Backbone.View.extend({
+				initialize: function () {
+					this.render();
+				},
+
+				render: function () {
+				}
+			}),
+
 			StartGame: Backbone.View.extend({
 				events: {
-					'click .easy': 'getEasyLevel',
-					'click .intermediate': 'getIntermediateLevel',
-					'click .hard': 'getHardLevel'
+					'click .easy'         : 'getEasyLevel',
+					'click .intermediate' : 'getIntermediateLevel',
+					'click .hard'         : 'getHardLevel'
 				},
 
 				initialize: function () {
 					this.render();
 				},
 
-				getEasyLevel: function () {
-					return;
+				getEasyLevel: function (evt) {
+					return this.getGame('easy', evt);
 				},
 
-				getIntermediateLevel: function () {
-					return;
+				getIntermediateLevel: function (evt) {
+					return this.getGame('intermediate', evt);
 				},
 
-				getHardLevel: function () {
-					return;
+				getHardLevel: function (evt) {
+					return this.getGame('hard', evt);
+				},
+
+				getGame: function (level, evt) {
+					evt.preventDefault();
+					this.remove();
+					return new Views.Game({level: level});
 				},
 
 				render: function () {
@@ -45,6 +63,7 @@
 				$.Mustache.addFromDom();
 				game = new Views.StartGame();
 			},
+			Collections: Collections,
 			Views: Views
 		};
 	})();
