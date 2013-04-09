@@ -2,6 +2,8 @@
 
 $(document).on('ready', function () {
 
+	var Mines = Minesweeper.Collections.Mines;
+
 	////////////////////////////////////////////////
 	////////////////////////////////////////////////
 
@@ -114,19 +116,29 @@ $(document).on('ready', function () {
 
 	module("Views.Game", {
 		setup: function () {
-			this.view = new Minesweeper.Views.Game();
+			this.view = new Minesweeper.Views.Game({level: 'meh'});
+			this.originalInitialize = Mines.prototype.initialize;
 		},
 		teardown: function () {
 			delete this.view;
+			Mines.prototype.initialize = this.originalInitialize;
 		}
 	});
 
-	test("`initialize` calls `render` and removes Views.StartGame instance", 1,
-	function () {
+	test("`initialize` calls `render`", 1, function () {
 		this.view.render = function () {
 			ok(true);
 		};
 
-		this.view.initialize();
+		this.view.initialize([], {level: 'meh'});
+	});
+
+	test("`initialize` passes game level to collection", 1,
+	function () {
+		Mines.prototype.initialize = function (_, opts) {
+			equal(opts.level, 'easy');
+		};
+
+		this.view.initialize({level: 'easy'});
 	});
 });

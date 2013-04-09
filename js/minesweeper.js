@@ -5,14 +5,42 @@
 		$app;
 
 	this.Minesweeper = (function () {
-		var Views, Collections;
+		var Views, Collections, Models;
+
+		Models = {
+			Mine: Backbone.Model.extend({
+			})
+		};
 
 		Collections = {
+			Mines: Backbone.Collection.extend({
+				model: Models.Mine,
+
+				initialize: function (models, opts) {
+					var mineCounts = {
+							easy         : 64,
+							intermediate : 256,
+							hard         : 480
+						},
+						mineCount = mineCounts[ opts.level ];
+
+					this.createField(mineCount);
+				},
+
+				createField: function () {
+				}
+			})
 		};
 
 		Views = {
 			Game: Backbone.View.extend({
-				initialize: function () {
+				initialize: function (opts) {
+					if (opts.level) {
+						this.collection = new Collections.Mines([], {
+							level: opts.level
+						});
+					}
+
 					this.render();
 				},
 
