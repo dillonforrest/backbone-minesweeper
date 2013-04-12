@@ -108,7 +108,7 @@ $(document).on('ready', function () {
 			ok(true);
 		};
 
-		this.view.getGame('meh', click);
+		this.view.getGame('easy', click);
 	});
 
 	////////////////////////////////////////////////
@@ -116,7 +116,7 @@ $(document).on('ready', function () {
 
 	module("Views.Game", {
 		setup: function () {
-			this.view = new Minesweeper.Views.Game({level: 'meh'});
+			this.view = new Minesweeper.Views.Game({level: 'easy'});
 			this.originalInitialize = Squares.prototype.initialize;
 		},
 		teardown: function () {
@@ -130,7 +130,7 @@ $(document).on('ready', function () {
 			ok(true);
 		};
 
-		this.view.initialize([], {level: 'meh'});
+		this.view.initialize([], {level: 'easy'});
 	});
 
 	test("`initialize` passes game level to collection", 1,

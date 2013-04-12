@@ -93,6 +93,7 @@ $(document).on('ready', function () {
 		setup    : function () {
 			createCollections(this);
 			this.originalShuffle = _.shuffle;
+			this.originalFind = _.find;
 			this.getSquares = function (squares) {
 				return _.filter(squares, function (sq) {
 					return ( sq.name === 'mine' );
@@ -102,6 +103,7 @@ $(document).on('ready', function () {
 		teardown : function () {
 			deleteCollections(this);
 			_.shuffle = this.originalShuffle;
+			_.find = this.originalFind;
 		}
 	});
 
@@ -135,6 +137,14 @@ $(document).on('ready', function () {
 			ok( _.isArray(list) );
 		};
 
+		this.easy.setSquares('easy');
+	});
+
+	test("the first square is set to not be a mine", 1, function () {
+		_.find = function () {
+			ok(true);
+		};
+		
 		this.easy.setSquares('easy');
 	});
 });

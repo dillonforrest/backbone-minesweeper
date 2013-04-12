@@ -41,12 +41,16 @@
 							hard         : 480
 						}[level],
 						allSquares = [],
-						i, name;
+						i, name, firstEmptySquare;
 
 					for (i = 0; i < numSquares; i++) {
 						name = ( i < numMines ? 'mine' : 'empty' );
 						allSquares.push({ name: name });
 					}
+
+					firstEmptySquare = _.find(allSquares, function (sq) {
+						return ( sq.name === 'empty' );
+					});
 
 					return _.shuffle(allSquares);
 				}
