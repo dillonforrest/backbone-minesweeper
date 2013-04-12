@@ -2,17 +2,17 @@
 
 $(document).on('ready', function () {
 
-	var Mines = Minesweeper.Collections.Mines,
-		MinesFn = Mines.prototype;
+	var Squares = Minesweeper.Collections.Squares,
+		SquaresFn = Squares.prototype;
 	
 	function createCollections (env) {
-		function createMines (level) {
-			return new Mines(false, {level: level});
+		function createSquares (level) {
+			return new Squares(false, {level: level});
 		}
 
-		env.easy         = createMines('easy');
-		env.intermediate = createMines('intermediate');
-		env.hard         = createMines('hard');
+		env.easy         = createSquares('easy');
+		env.intermediate = createSquares('intermediate');
+		env.hard         = createSquares('hard');
 	}
 
 	function deleteCollections (env) {
@@ -24,26 +24,26 @@ $(document).on('ready', function () {
 	////////////////////////////////////////////////
 	////////////////////////////////////////////////
 
-	module("Collections.Mines", {
+	module("Collections.Squares", {
 		setup: function () {
-			this.originalCreateField = MinesFn.createField;
+			this.originalCreateField = SquaresFn.createField;
 		},
 		teardown: function () {
-			MinesFn.createField = this.originalCreateField;
+			SquaresFn.createField = this.originalCreateField;
 		}
 	});
 
-	test("Mines collection exists", 1, function () { ok(Mines); });
+	test("Squares collection exists", 1, function () { ok(Squares); });
 
 	test("`initialize` passes game level to createField", 1, function () {
 		var gameLevel = 'lolcops',
 			col;
 
-		MinesFn.createField = function (level) {
+		SquaresFn.createField = function (level) {
 			equal(level, gameLevel);
 		};
 
-		col = new Mines([], {level: gameLevel});
+		col = new Squares([], {level: gameLevel});
 	});
 
 	////////////////////////////////////////////////
@@ -61,7 +61,7 @@ $(document).on('ready', function () {
 	});
 
 	test("`createField` sets the mines in the field", 6, function () {
-		this.easy.setMines = function (level) {
+		this.easy.setSquares = function (level) {
 			ok(true);
 			equal(level, 'easy');
 			return [];
@@ -69,7 +69,7 @@ $(document).on('ready', function () {
 
 		this.easy.createField('easy');
 
-		this.intermediate.setMines = function (level) {
+		this.intermediate.setSquares = function (level) {
 			ok(true);
 			equal(level, 'intermediate');
 			return [];
@@ -77,7 +77,7 @@ $(document).on('ready', function () {
 
 		this.intermediate.createField('intermediate');
 
-		this.hard.setMines = function (level) {
+		this.hard.setSquares = function (level) {
 			ok(true);
 			equal(level, 'hard');
 			return [];
@@ -89,11 +89,11 @@ $(document).on('ready', function () {
 	////////////////////////////////////////////////
 	////////////////////////////////////////////////
 
-	module("`setMines` method", {
+	module("`setSquares` method", {
 		setup    : function () {
 			createCollections(this);
 			this.originalShuffle = _.shuffle;
-			this.getMines = function (squares) {
+			this.getSquares = function (squares) {
 				return _.filter(squares, function (sq) {
 					return ( sq.name === 'mine' );
 				});
@@ -106,8 +106,8 @@ $(document).on('ready', function () {
 	});
 
 	test("easy levels have 10 mines", 4, function () {
-		var squares = this.easy.setMines('easy'),
-			mines = this.getMines(squares);
+		var squares = this.easy.setSquares('easy'),
+			mines = this.getSquares(squares);
 
 		ok(squares);
 		equal(squares.length, 64);
@@ -116,15 +116,15 @@ $(document).on('ready', function () {
 	});
 
 	test("intermediate levels have 40 mines", 1, function () {
-		var squares = this.intermediate.setMines('intermediate'),
-			mines = this.getMines(squares);
+		var squares = this.intermediate.setSquares('intermediate'),
+			mines = this.getSquares(squares);
 
 		equal(mines.length, 40);
 	});
 
 	test("hard levels have 99 mines", 1, function () {
-		var squares = this.hard.setMines('hard'),
-			mines = this.getMines(squares);
+		var squares = this.hard.setSquares('hard'),
+			mines = this.getSquares(squares);
 
 		equal(mines.length, 99);
 	});
@@ -135,6 +135,6 @@ $(document).on('ready', function () {
 			ok( _.isArray(list) );
 		};
 
-		this.easy.setMines('easy');
+		this.easy.setSquares('easy');
 	});
 });

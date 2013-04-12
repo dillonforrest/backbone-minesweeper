@@ -2,7 +2,7 @@
 
 $(document).on('ready', function () {
 
-	var Mines = Minesweeper.Collections.Mines;
+	var Squares = Minesweeper.Collections.Squares;
 
 	////////////////////////////////////////////////
 	////////////////////////////////////////////////
@@ -117,11 +117,11 @@ $(document).on('ready', function () {
 	module("Views.Game", {
 		setup: function () {
 			this.view = new Minesweeper.Views.Game({level: 'meh'});
-			this.originalInitialize = Mines.prototype.initialize;
+			this.originalInitialize = Squares.prototype.initialize;
 		},
 		teardown: function () {
 			delete this.view;
-			Mines.prototype.initialize = this.originalInitialize;
+			Squares.prototype.initialize = this.originalInitialize;
 		}
 	});
 
@@ -135,7 +135,7 @@ $(document).on('ready', function () {
 
 	test("`initialize` passes game level to collection", 1,
 	function () {
-		Mines.prototype.initialize = function (_, opts) {
+		Squares.prototype.initialize = function (_, opts) {
 			equal(opts.level, 'easy');
 		};
 

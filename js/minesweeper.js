@@ -8,20 +8,20 @@
 		var Views, Collections, Models;
 
 		Models = {
-			Mine: Backbone.Model.extend({
+			Square: Backbone.Model.extend({
 			})
 		};
 
 		Collections = {
-			Mines: Backbone.Collection.extend({
-				model: Models.Mine,
+			Squares: Backbone.Collection.extend({
+				model: Models.Square,
 
 				initialize: function (models, opts) {
 					this.createField(opts.level);
 				},
 
 				createField: function (level) {
-					var squares = this.setMines(level),
+					var squares = this.setSquares(level),
 						i;
 
 					for (i = 0; i < squares.length; i++) {
@@ -29,7 +29,7 @@
 					}
 				},
 
-				setMines: function (level) {
+				setSquares: function (level) {
 					var numMines = {
 							easy         : 10,
 							intermediate : 40,
@@ -57,7 +57,7 @@
 			Game: Backbone.View.extend({
 				initialize: function (opts) {
 					if (opts.level) {
-						this.collection = new Collections.Mines([], {
+						this.collection = new Collections.Squares([], {
 							level: opts.level
 						});
 					}
