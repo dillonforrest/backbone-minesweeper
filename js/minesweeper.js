@@ -1,6 +1,6 @@
-
 (function () {
 	var Backbone = this.Backbone,
+		_ = this._,
 		self = this,
 		$app;
 
@@ -17,17 +17,38 @@
 				model: Models.Mine,
 
 				initialize: function (models, opts) {
-					var mineCounts = {
+					this.createField(opts.level);
+				},
+
+				createField: function (level) {
+					var squares = this.setMines(level),
+						i;
+
+					for (i = 0; i < squares.length; i++) {
+						this.add(squares[i]);
+					}
+				},
+
+				setMines: function (level) {
+					var numMines = {
+							easy         : 10,
+							intermediate : 40,
+							hard         : 99
+						}[level],
+						numSquares = {
 							easy         : 64,
 							intermediate : 256,
 							hard         : 480
-						},
-						mineCount = mineCounts[ opts.level ];
+						}[level],
+						allSquares = [],
+						i, name;
 
-					this.createField(mineCount);
-				},
+					for (i = 0; i < numSquares; i++) {
+						name = ( i < numMines ? 'mine' : 'empty' );
+						allSquares.push({ name: name });
+					}
 
-				createField: function () {
+					return _.shuffle(allSquares);
 				}
 			})
 		};
