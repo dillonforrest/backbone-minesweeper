@@ -135,16 +135,36 @@ $(document).on('ready', function () {
 		_.shuffle = function (list) {
 			ok(true);
 			ok( _.isArray(list) );
+			return [];
 		};
 
 		this.easy.setSquares('easy');
 	});
 
-	test("the first square is set to not be a mine", 1, function () {
-		_.find = function () {
+	test("the first square is set to not be a mine", 3, function () {
+		_.find = function (squares, callback) {
+			var square = {name: 'empty'};
+
 			ok(true);
+			equal(squares.length, 64);
+			ok( callback(square) );
+
+			return [];
 		};
 		
 		this.easy.setSquares('easy');
+	});
+
+	test("`setSquares returns a flat list", 1, function () {
+		var isFlat = true,
+			squares = this.easy.setSquares('easy'),
+			len = squares.length,
+			i;
+
+		for (i = 0; i < len; i++) {
+			if ( _.isArray(squares[i]) ) { isFlat = false; }
+		}
+
+		ok(isFlat);
 	});
 });

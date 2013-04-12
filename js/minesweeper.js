@@ -41,18 +41,26 @@
 							hard         : 480
 						}[level],
 						allSquares = [],
-						i, name, firstEmptySquare;
+						i, name, shuffled;
+
+					function ensureEmptyFirstSquare (squares) {
+						var firstEmptySq = _.find(squares, function (sq) {
+								return ( sq.name === 'empty' );
+							}),
+							index = squares.indexOf(firstEmptySq);
+						squares.splice(index, 1);
+						squares.unshift(firstEmptySq);
+						return squares;
+					}
 
 					for (i = 0; i < numSquares; i++) {
 						name = ( i < numMines ? 'mine' : 'empty' );
 						allSquares.push({ name: name });
 					}
 
-					firstEmptySquare = _.find(allSquares, function (sq) {
-						return ( sq.name === 'empty' );
-					});
+					shuffled = _.shuffle(allSquares);
 
-					return _.shuffle(allSquares);
+					return ensureEmptyFirstSquare(shuffled);
 				}
 			})
 		};
