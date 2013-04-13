@@ -46,7 +46,7 @@ $(document).on('ready', function () {
 		Minesweeper.initialize();
 	});
 
-	test("Minesweeper.Collections", 1, function () {
-		ok(Minesweeper);
-	});
+	test("Minesweeper.Collections", 1, function () { ok(Minesweeper.Collections); });
+
+	test("Minesweeper.Models", 1, function () { ok(Minesweeper.Models); });
 });

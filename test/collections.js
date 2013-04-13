@@ -60,6 +60,13 @@ $(document).on('ready', function () {
 		equal(this.hard.length         , 480);
 	});
 
+	test("`createField` sets model ids by order of insertion to col", 3,
+	function () {
+		equal( this.easy.at(5).id          , 5   );
+		equal( this.intermediate.at(72).id , 72  );
+		equal( this.hard.at(303).id        , 303 );
+	});
+
 	test("`createField` sets the mines in the field", 6, function () {
 		this.easy.setSquares = function (level) {
 			ok(true);
@@ -135,36 +142,10 @@ $(document).on('ready', function () {
 		_.shuffle = function (list) {
 			ok(true);
 			ok( _.isArray(list) );
-			return [];
+			return list;
 		};
 
 		this.easy.setSquares('easy');
 	});
 
-	test("the first square is set to not be a mine", 3, function () {
-		_.find = function (squares, callback) {
-			var square = {name: 'empty'};
-
-			ok(true);
-			equal(squares.length, 64);
-			ok( callback(square) );
-
-			return [];
-		};
-		
-		this.easy.setSquares('easy');
-	});
-
-	test("`setSquares returns a flat list", 1, function () {
-		var isFlat = true,
-			squares = this.easy.setSquares('easy'),
-			len = squares.length,
-			i;
-
-		for (i = 0; i < len; i++) {
-			if ( _.isArray(squares[i]) ) { isFlat = false; }
-		}
-
-		ok(isFlat);
-	});
 });

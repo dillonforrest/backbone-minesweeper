@@ -133,9 +133,10 @@ $(document).on('ready', function () {
 		this.view.initialize([], {level: 'easy'});
 	});
 
-	test("`initialize` passes game level to collection", 1,
+	test("`initialize` passes game level to collection", 2,
 	function () {
-		Squares.prototype.initialize = function (_, opts) {
+		Squares.prototype.initialize = function (models, opts) {
+			deepEqual(models, false);
 			equal(opts.level, 'easy');
 		};
 

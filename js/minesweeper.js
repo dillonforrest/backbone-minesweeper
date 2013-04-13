@@ -22,9 +22,10 @@
 
 				createField: function (level) {
 					var squares = this.setSquares(level),
+						len = squares.length,
 						i;
 
-					for (i = 0; i < squares.length; i++) {
+					for (i = 0; i < len; i++) {
 						this.add(squares[i]);
 					}
 				},
@@ -43,16 +44,6 @@
 						allSquares = [],
 						i, name, shuffled;
 
-					function ensureEmptyFirstSquare (squares) {
-						var firstEmptySq = _.find(squares, function (sq) {
-								return ( sq.name === 'empty' );
-							}),
-							index = squares.indexOf(firstEmptySq);
-						squares.splice(index, 1);
-						squares.unshift(firstEmptySq);
-						return squares;
-					}
-
 					for (i = 0; i < numSquares; i++) {
 						name = ( i < numMines ? 'mine' : 'empty' );
 						allSquares.push({ name: name });
@@ -60,7 +51,11 @@
 
 					shuffled = _.shuffle(allSquares);
 
-					return ensureEmptyFirstSquare(shuffled);
+					for (i = 0; i < numSquares; i++) {
+						shuffled[i].id = i;
+					}
+
+					return shuffled;
 				}
 			})
 		};
@@ -69,7 +64,7 @@
 			Game: Backbone.View.extend({
 				initialize: function (opts) {
 					if (opts.level) {
-						this.collection = new Collections.Squares([], {
+						this.collection = new Collections.Squares(false, {
 							level: opts.level
 						});
 					}
@@ -124,6 +119,7 @@
 				$.Mustache.addFromDom();
 				game = new Views.StartGame();
 			},
+			Models: Models,
 			Collections: Collections,
 			Views: Views
 		};
