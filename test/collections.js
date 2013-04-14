@@ -60,13 +60,6 @@ $(document).on('ready', function () {
 		equal(this.hard.length         , 480);
 	});
 
-	test("`createField` sets model ids by order of insertion to col", 3,
-	function () {
-		equal( this.easy.at(5).id          , 5   );
-		equal( this.intermediate.at(72).id , 72  );
-		equal( this.hard.at(303).id        , 303 );
-	});
-
 	test("`createField` sets the mines in the field", 6, function () {
 		this.easy.setSquares = function (level) {
 			ok(true);
@@ -148,4 +141,30 @@ $(document).on('ready', function () {
 		this.easy.setSquares('easy');
 	});
 
+	test("`setSquares` sets model ids by order of insertion to col", 3,
+	function () {
+		equal( this.easy.at(5).id          , 5   );
+		equal( this.intermediate.at(72).id , 72  );
+		equal( this.hard.at(303).id        , 303 );
+	});
+
+	test("one empty sq is flagged. this ensures user doesn't click on " +
+	"a mine first", 2, function () {
+		var squares = this.easy.setSquares('easy'),
+			groups = _.groupBy(squares, function (sq) {
+				return ( sq.isBackup ? 'isBackup' : 'notBackup' );
+			});
+
+		equal(groups.isBackup.length, 1);
+		equal(groups.isBackup[0].name, 'empty', "backup is not a mine");
+
+		/*
+		About `isBackupMine` attribute:
+		When a user first clicks on a square in minesweeper, the first
+		square is guaranteed to not be a mine. In my implementation of
+		minesweeper, all the mines are assigned to squares before the first
+		click. If a user first clicks on a mine, the game will swap that
+		square for this empty square, with `isBackupMine` set to true.
+		*/
+	});
 });

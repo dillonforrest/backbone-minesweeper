@@ -47,6 +47,7 @@
 					for (i = 0; i < numSquares; i++) {
 						name = ( i < numMines ? 'mine' : 'empty' );
 						allSquares.push({ name: name });
+						if (i === numMines) { allSquares[i].isBackup = true; }
 					}
 
 					shuffled = _.shuffle(allSquares);
