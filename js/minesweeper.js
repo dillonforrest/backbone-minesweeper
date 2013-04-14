@@ -23,10 +23,12 @@
 				createField: function (level) {
 					var squares = this.setSquares(level),
 						len = squares.length,
-						i;
+						i, square;
 
 					for (i = 0; i < len; i++) {
-						this.add(squares[i]);
+						square = squares[i];
+						this.add(square);
+						if (square.isBackup) { this.backupIndex = i; }
 					}
 				},
 

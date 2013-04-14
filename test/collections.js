@@ -86,6 +86,12 @@ $(document).on('ready', function () {
 		this.hard.createField('hard');
 	});
 
+	test("the backup mine's index is cached as a collection attribute", 2,
+	function () {
+		ok( this.easy.backupIndex );
+		equal(typeof this.easy.backupIndex, 'number');
+	});
+
 	////////////////////////////////////////////////
 	////////////////////////////////////////////////
 
