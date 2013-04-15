@@ -26,17 +26,18 @@ ul, li {
     font-size: 1.5em;
     color: #694b3c;
     margin: 40px; }
-  .center.start-screen ul li {
-    list-style-type: none;
-    font: bold 2.5em/2em verdana;
-    color: #00a0b0;
-    background: #eb6940;
-    width: 250px;
-    height: 50px;
-    margin: 20px auto;
-    -webkit-border-radius: 30px;
-    -moz-border-radius: 30px;
-    border-radius: 30px; }
-    .center.start-screen ul li:hover {
-      color: #cd333e;
-      cursor: pointer; }
+
+.button {
+  list-style-type: none;
+  font: bold 2.5em/2em verdana;
+  color: #00a0b0;
+  background: #eb6940;
+  width: 250px;
+  height: 50px;
+  margin: 20px auto;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px; }
+  .button:hover {
+    color: #cd333e;
+    cursor: pointer; }

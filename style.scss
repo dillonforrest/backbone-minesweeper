@@ -41,25 +41,25 @@ ul, li {
 			color: $color-brown;
 			margin: 40px;
 		}
+	}
+}
 
-		ul li {
-			list-style-type: none;
-			font: bold 2.5em/2em verdana;
-			color: $color-blue;
+.button {
+	list-style-type: none;
+	font: bold 2.5em/2em verdana;
+	color: $color-blue;
 
-			background: $color-orange;
-			width: 250px;
-			height: 50px;
-			margin: 20px auto;
-	
-			-webkit-border-radius: 30px;
-			-moz-border-radius: 30px;
-			border-radius: 30px;
+	background: $color-orange;
+	width: 250px;
+	height: 50px;
+	margin: 20px auto;
 
-			&:hover {
-				color: $color-red;
-				cursor: pointer;
-			}
-		}
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+
+	&:hover {
+		color: $color-red;
+		cursor: pointer;
 	}
 }

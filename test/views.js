@@ -36,6 +36,11 @@ $(document).on('ready', function () {
 		equal( events['click .hard']         , 'getHardLevel' );
 	});
 
+	test("el is set to an id of `start-game-view`", 1, function () {
+		var attributes = this.view.attributes;
+		equal( attributes.id, "start-game-view" );
+	});
+
 	test("`render` injects template into dom", 4, function () {
 		$.prototype.mustache = function (templateId, data) {
 			ok(true);
@@ -44,14 +49,6 @@ $(document).on('ready', function () {
 		};
 
 		deepEqual( this.view, this.view.render(), "return `this`" );
-	});
-
-	test("`render` sets the element to $('#app')", 1, function () {
-		this.view.setElement = function () {
-			ok(true);
-		};
-
-		this.view.render();
 	});
 
 	test("`getEasyLevel` creates easy minesweeper game", 3, function () {
@@ -118,19 +115,32 @@ $(document).on('ready', function () {
 		setup: function () {
 			this.view = new Minesweeper.Views.Game({level: 'easy'});
 			this.originalInitialize = Squares.prototype.initialize;
+			this.originalMustache = $.prototype.mustache;
 		},
 		teardown: function () {
 			delete this.view;
 			Squares.prototype.initialize = this.originalInitialize;
+			$.prototype.mustache = this.originalMustache;
 		}
 	});
 
-	test("`initialize` calls `render`", 1, function () {
-		this.view.render = function () {
+	test("`attributes` sets the id to `#game-view`", 1, function () {
+		var attributes = this.view.attributes;
+		equal( attributes.id, 'game-view' );
+	});
+
+	test("`events` hash", 1, function () {
+		var events = this.view.events;
+		equal( events['click .button.go-back'], 'goToStartScreen' );
+	});
+
+	test("`initialize` calls `render`", 2, function () {
+		this.view.render = function (level) {
 			ok(true);
+			equal(level, 'easy');
 		};
 
-		this.view.initialize([], {level: 'easy'});
+		this.view.initialize({level: 'easy'});
 	});
 
 	test("`initialize` passes game level to collection", 2,
@@ -141,5 +151,26 @@ $(document).on('ready', function () {
 		};
 
 		this.view.initialize({level: 'easy'});
+	});
+
+	test("`render` fills $app with the Game template", 5, function () {
+		$.prototype.mustache = function (templateId, data) {
+			ok(true);
+			equal( this.attr('id'), 'game-view' );
+			equal(templateId, 'game');
+			deepEqual(data, {});
+		};
+
+		deepEqual( this.view, this.view.render('easy'), "return `this`" );
+	});
+
+	test("`goToStartScreen` removes the view and goes back", 1, function () {
+		var click = { preventDefault: $.noop };
+
+		this.view.remove = function () {
+			ok(true);
+		};
+
+		this.view.goToStartScreen(click);
 	});
 });

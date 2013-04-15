@@ -65,6 +65,12 @@
 
 		Views = {
 			Game: Backbone.View.extend({
+				attributes: { id: 'game-view' },
+
+				events: {
+					'click .button.go-back': 'goToStartScreen'
+				},
+
 				initialize: function (opts) {
 					if (opts.level) {
 						this.collection = new Collections.Squares(false, {
@@ -72,14 +78,25 @@
 						});
 					}
 
-					this.render();
+					this.render(opts.level);
 				},
 
-				render: function () {
+				goToStartScreen: function (evt) {
+					evt.preventDefault();
+					this.remove();
+					return new Views.StartGame();
+				},
+
+				render: function (/*level*/) {
+					this.$el.mustache('game', {});
+					$app.html(this.el);
+					return this;
 				}
 			}),
 
 			StartGame: Backbone.View.extend({
+				attributes: { id: 'start-game-view' },
+
 				events: {
 					'click .easy'         : 'getEasyLevel',
 					'click .intermediate' : 'getIntermediateLevel',
@@ -109,8 +126,8 @@
 				},
 
 				render: function () {
-					$app.mustache('start-screen', {});
-					this.setElement($app);
+					this.$el.mustache('start-screen', {});
+					$app.html(this.el);
 					return this;
 				}
 			})
