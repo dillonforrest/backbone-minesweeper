@@ -68,7 +68,8 @@
 				attributes: { id: 'game-view' },
 
 				events: {
-					'click .button.go-back': 'goToStartScreen'
+					'click .button.go-back'  : 'goToStartScreen',
+					'click .grid td.covered' : 'uncoverSquare',
 				},
 
 				initialize: function (opts) {
@@ -87,6 +88,12 @@
 					return new Views.StartGame();
 				},
 
+				uncoverSquare: function (evt) {
+					var id = $(evt.currentTarget).data('sq');
+					evt.preventDefault();
+					this.collection.revealSquare(id);
+				},
+
 				createGrid: function (level) {
 					var html = '<table>',
 						numRows = ( level === 'easy' ? 8 : 16 ),
@@ -97,15 +104,16 @@
 						}[level],
 						x, y;
 
-					function getClass (x, y) {
-						var id = (x * numColumns) + y;
-						return 'sq-' + id;
+					function getSquareNumber (x, y) {
+						return (y * numColumns) + x;
 					}
 
 					for (y = 0; y < numRows; y++) {
 						html += '<tr>';
 						for (x = 0; x < numColumns; x++) {
-							html += '<td id="' + getClass(x, y) + '"/>';
+							html += '<td data-sq="'
+								+ getSquareNumber(x, y)
+								+ '" class="covered" />';
 						}
 						html += '</tr>';
 					}

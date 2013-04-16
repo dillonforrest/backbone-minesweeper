@@ -1,14 +1,15 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  border-spacing: 0px; }
+
 body {
   background: #edca51;
   font: 10px/12px verdana; }
 
-ul, li {
-  padding: 0px;
-  margin: 0px; }
-
 .center {
   margin: 150px auto;
-  width: 500px;
+  width: 730px;
   text-align: center;
   border: 10px solid #cd333e;
   padding: 30px;
@@ -22,10 +23,9 @@ ul, li {
     color: #694b3c;
     margin: 40px 0px; }
   .center.start-screen .select {
-    text-align: left;
     font-size: 1.5em;
     color: #694b3c;
-    margin: 40px; }
+    margin: 50px; }
 
 .button {
   list-style-type: none;
@@ -41,3 +41,13 @@ ul, li {
   .button:hover {
     color: #cd333e;
     cursor: pointer; }
+
+.grid table {
+  margin: auto; }
+.grid td.covered {
+  height: 20px;
+  width: 20px;
+  border: 2px solid;
+  border-color: #eeeeee #999999 #999999 #eeeeee;
+  background-color: #cccccc;
+  cursor: pointer; }

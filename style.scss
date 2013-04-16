@@ -1,24 +1,29 @@
-$color-blue   : #00A0B0;
-$color-brown  : #694B3C;
-$color-red    : #CD333E;
-$color-orange : #EB6940;
-$color-yellow : #EDCA51;
+$blue   : #00A0B0;
+$brown  : #694B3C;
+$red    : #CD333E;
+$orange : #EB6940;
+$yellow : #EDCA51;
 
-body {
-	background: $color-yellow;
-	font: 10px/12px verdana;
-}
+$light-grey  : #EEEEEE;
+$medium-grey : #CCCCCC;
+$dark-grey   : #999999;
 
-ul, li {
+* {
 	padding: 0px;
 	margin: 0px;
+	border-spacing: 0px;
+}
+
+body {
+	background: $yellow;
+	font: 10px/12px verdana;
 }
 
 .center {
 	margin: 150px auto;
-	width: 500px;
+	width: 730px;
 	text-align: center;
-	border: 10px solid $color-red;
+	border: 10px solid $red;
 	padding: 30px;
 
 	-webkit-border-radius: 50px;
@@ -30,16 +35,15 @@ ul, li {
 
 	h1 {
 		font-size: 4em;
-		color: $color-brown;
+		color: $brown;
 		margin: 40px 0px;
 	}
 
 	&.start-screen {
 		.select {
-			text-align: left;
 			font-size: 1.5em;
-			color: $color-brown;
-			margin: 40px;
+			color: $brown;
+			margin: 50px;
 		}
 	}
 }
@@ -47,9 +51,9 @@ ul, li {
 .button {
 	list-style-type: none;
 	font: bold 2.5em/2em verdana;
-	color: $color-blue;
+	color: $blue;
 
-	background: $color-orange;
+	background: $orange;
 	width: 250px;
 	height: 50px;
 	margin: 20px auto;
@@ -59,7 +63,23 @@ ul, li {
 	border-radius: 30px;
 
 	&:hover {
-		color: $color-red;
+		color: $red;
+		cursor: pointer;
+	}
+}
+
+.grid {
+	table {
+		margin: auto;
+	}
+
+	td.covered {
+		height: 20px;
+		width: 20px;
+		border: 2px solid;
+		border-color: $light-grey $dark-grey $dark-grey $light-grey;
+		background-color: $medium-grey;
+
 		cursor: pointer;
 	}
 }

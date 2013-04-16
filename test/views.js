@@ -215,4 +215,17 @@ $(document).on('ready', function () {
 
 		this.view.goToStartScreen(click);
 	});
+
+	test("`uncoverSquare` exposes a square", 2, function () {
+		var clickEvent = {
+				currentTarget: '<div data-sq="11" />',
+				preventDefault: function () { ok(true); }
+			};
+
+		this.view.collection.revealSquare = function () {
+			ok(true);
+		};
+
+		this.view.uncoverSquare( clickEvent );
+	});
 });
