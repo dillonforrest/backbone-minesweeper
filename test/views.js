@@ -116,11 +116,13 @@ $(document).on('ready', function () {
 			this.view = new Minesweeper.Views.Game({level: 'easy'});
 			this.originalInitialize = Squares.prototype.initialize;
 			this.originalMustache = $.prototype.mustache;
+			this.originalHtml = $.prototype.html;
 		},
 		teardown: function () {
 			delete this.view;
 			Squares.prototype.initialize = this.originalInitialize;
 			$.prototype.mustache = this.originalMustache;
+			$.prototype.html = this.originalHtml;
 		}
 	});
 
@@ -162,6 +164,46 @@ $(document).on('ready', function () {
 		};
 
 		deepEqual( this.view, this.view.render('easy'), "return `this`" );
+	});
+
+	test("`render` creates a grid depending on the level", 5, function () {
+		this.view.createGrid = function (level) {
+			ok(true);
+			equal(level, 'easy');
+			return 'grid html';
+		};
+
+		$.prototype.html = function (arg) {
+			var isCorrectHtmlCall = ( $(this).selector !== '#app' );
+			if (isCorrectHtmlCall) {
+				ok(true);
+				equal( $(this).selector, '.grid' ); 
+				equal(arg, 'grid html');
+			}
+		};
+
+		this.view.render('easy');
+	});
+
+	test("`createGrid` makes an 8x8 table for easy levels", 2, function () {
+		var table = this.view.createGrid('easy'),
+			$rows = $(table).find('tr');
+		equal( $rows.length, 8, "8 rows" );
+		equal( $rows.first().find('td').length, 8, "8 columns" );
+	});
+
+	test("`createGrid` makes an 16x16 table for easy levels", 2, function () {
+		var table = this.view.createGrid('intermediate'),
+			$rows = $(table).find('tr');
+		equal( $rows.length, 16, "16 rows" );
+		equal( $rows.first().find('td').length, 16, "16 columns" );
+	});
+
+	test("`createGrid` makes an 16x30 table for easy levels", 2, function () {
+		var table = this.view.createGrid('hard'),
+			$rows = $(table).find('tr');
+		equal( $rows.length, 16, "16 rows" );
+		equal( $rows.first().find('td').length, 30, "30 columns" );
 	});
 
 	test("`goToStartScreen` removes the view and goes back", 1, function () {

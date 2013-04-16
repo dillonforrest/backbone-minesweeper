@@ -87,8 +87,35 @@
 					return new Views.StartGame();
 				},
 
-				render: function (/*level*/) {
+				createGrid: function (level) {
+					var html = '<table>',
+						numRows = ( level === 'easy' ? 8 : 16 ),
+						numColumns = {
+							easy         : 8,
+							intermediate : 16,
+							hard         : 30
+						}[level],
+						x, y;
+
+					function getClass (x, y) {
+						var id = (x * numColumns) + y;
+						return 'sq-' + id;
+					}
+
+					for (y = 0; y < numRows; y++) {
+						html += '<tr>';
+						for (x = 0; x < numColumns; x++) {
+							html += '<td id="' + getClass(x, y) + '"/>';
+						}
+						html += '</tr>';
+					}
+
+					return html += '</table>';
+				},
+
+				render: function (level) {
 					this.$el.mustache('game', {});
+					this.$el.find('.grid').html(this.createGrid(level));
 					$app.html(this.el);
 					return this;
 				}
