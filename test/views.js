@@ -216,9 +216,10 @@ $(document).on('ready', function () {
 		this.view.goToStartScreen(click);
 	});
 
-	test("`uncoverSquare` exposes a square", 2, function () {
-		var clickEvent = {
-				currentTarget: '<div data-sq="11" />',
+	test("`uncoverSquare` exposes a square", 3, function () {
+		var $div = $('<div data-sq="11" class="covered" />'),
+			clickEvent = {
+				currentTarget: $div,
 				preventDefault: function () { ok(true); }
 			};
 
@@ -227,5 +228,7 @@ $(document).on('ready', function () {
 		};
 
 		this.view.uncoverSquare( clickEvent );
+
+		ok( ! $div.hasClass('covered') );
 	});
 });

@@ -183,6 +183,9 @@ $(document).on('ready', function () {
 		this.easy.setSquares('easy');
 	});
 
+	////////////////////////////////////////////////
+	////////////////////////////////////////////////
+
 	module("`getNeighbors` method", {
 		setup    : function () { createCollections(this); },
 		teardown : function () { deleteCollections(this); }
@@ -225,4 +228,13 @@ $(document).on('ready', function () {
 		equal(middle.length, 8);
 		deepEqual(middle, [26, 27, 28, 34, 36, 42, 43, 44]);
 	});
+
+	////////////////////////////////////////////////
+	////////////////////////////////////////////////
+
+	module("`revealSquare` method", {
+		setup    : function () { createCollections(this); },
+		teardown : function () { deleteCollections(this); }
+	});
+
 });

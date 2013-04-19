@@ -107,6 +107,9 @@
 					}
 
 					return neighbors;
+				},
+
+				revealSquare: function (id) {
 				}
 			})
 		};
@@ -137,8 +140,12 @@
 				},
 
 				uncoverSquare: function (evt) {
-					var id = $(evt.currentTarget).data('sq');
+					var $target = $(evt.currentTarget),
+						id = $target.data('sq');
+
 					evt.preventDefault();
+
+					$target.removeClass('covered');
 					this.collection.revealSquare(id);
 				},
 
