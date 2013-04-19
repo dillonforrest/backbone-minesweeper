@@ -56,9 +56,57 @@
 
 					for (i = 0; i < numSquares; i++) {
 						shuffled[i].id = i;
+						shuffled[i].neighbors = this.getNeighbors(i, level);
 					}
 
 					return shuffled;
+				},
+
+				getNeighbors: function (id, level) { // sexiest function eva!!
+					var pos = {
+							easy         : [8, 8],
+							intermediate : [16, 16],
+							hard         : [30, 16]
+						}[level],
+						width = pos[0], height = pos[1], total = width * height,
+						neighbors;
+
+					// CORNERS OF GRID
+					if (id === 0) { // is top-left corner
+						neighbors = [1, width, width + 1];
+					} else if (id === width - 1) { // is top-right corner
+						neighbors = [width - 2, width * 2 - 2, width * 2 - 1];
+					} else if (id === total - width) { // is bottom-left
+						neighbors = [total - width * 2,
+							total - width * 2 + 1, total - width + 1];
+					} else if (id === total - 1) { // is bottom-right
+						neighbors = [total - width - 2, total - width - 1,
+							total - 2];
+					}
+
+					// EDGES OF GRID
+					else if (id < width) { // is along top edge
+						neighbors = [id - 1, id + 1,
+							id + width - 1, id + width, id + width + 1];
+					} else if (id % 8 === 0) { // is along left edge
+						neighbors = [id - width, id - width + 1,
+							id + 1, id + width, id + width + 1];
+					} else if (id % 8 === 7) { // is along right edge
+						neighbors = [id - width - 1, id - width,
+							id - 1, id + width - 1, id + width];
+					} else if (id >= total - width) { // is along bottom edge
+						neighbors = [id - width - 1, id - width,
+							id - width + 1, id - 1, id + 1];
+					}
+
+					// IN THE MIDDLE OF GRID
+					else {
+						neighbors = [id - width - 1, id - width, id - width + 1,
+							id - 1, id + 1, id + width - 1, id + width,
+							id + width + 1];
+					}
+
+					return neighbors;
 				}
 			})
 		};

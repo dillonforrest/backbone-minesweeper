@@ -1,4 +1,4 @@
-/*global module, test, equal, Minesweeper, ok, _*/
+/*global module, test, equal, Minesweeper, ok, _, deepEqual*/
 
 $(document).on('ready', function () {
 
@@ -172,5 +172,57 @@ $(document).on('ready', function () {
 		click. If a user first clicks on a mine, the game will swap that
 		square for this empty square, with `isBackupMine` set to true.
 		*/
+	});
+
+	test("neighbors for each square are determined", 192, function () {
+		this.easy.getNeighbors = function (id, level) {
+			ok(true);
+			equal(typeof id, 'number');
+			equal(level, 'easy');
+		};
+		this.easy.setSquares('easy');
+	});
+
+	module("`getNeighbors` method", {
+		setup    : function () { createCollections(this); },
+		teardown : function () { deleteCollections(this); }
+	});
+
+	test("squares in the grid's corners have 3 neighbors", 8, function () {
+		var topLeft = this.easy.getNeighbors(0, 'easy'),
+			topRight = this.easy.getNeighbors(7, 'easy'),
+			bottomLeft = this.easy.getNeighbors(56, 'easy'),
+			bottomRight = this.easy.getNeighbors(63, 'easy');
+
+		equal(topLeft.length, 3);
+		deepEqual(topLeft, [1, 8, 9]);
+		equal(topRight.length, 3);
+		deepEqual(topRight, [6, 14, 15]);
+		equal(bottomLeft.length, 3);
+		deepEqual(bottomLeft, [48, 49, 57]);
+		equal(bottomRight.length, 3);
+		deepEqual(bottomRight, [54, 55, 62]);
+	});
+
+	test("squares along the edge have 5 neighbors", 8, function () {
+		var topRow = this.easy.getNeighbors(5, 'easy'),
+			leftCol = this.easy.getNeighbors(24, 'easy'),
+			rightCol = this.easy.getNeighbors(47, 'easy'),
+			bottomCol = this.easy.getNeighbors(58, 'easy');
+
+		equal(topRow.length, 5);
+		deepEqual(topRow, [4, 6, 12, 13, 14]);
+		equal(leftCol.length, 5);
+		deepEqual(leftCol, [16, 17, 25, 32, 33]);
+		equal(rightCol.length, 5);
+		deepEqual(rightCol, [38, 39, 46, 54, 55]);
+		equal(bottomCol.length, 5);
+		deepEqual(bottomCol, [49, 50, 51, 57, 59]);
+	});
+
+	test("squares in middle have 8 neighbors", 2, function () {
+		var middle = this.easy.getNeighbors(35, 'easy');
+		equal(middle.length, 8);
+		deepEqual(middle, [26, 27, 28, 34, 36, 42, 43, 44]);
 	});
 });
