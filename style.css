@@ -44,10 +44,11 @@ body {
 
 .grid table {
   margin: auto; }
-.grid td.covered {
+.grid td {
   height: 20px;
-  width: 20px;
-  border: 2px solid;
-  border-color: #eeeeee #999999 #999999 #eeeeee;
-  background-color: #cccccc;
-  cursor: pointer; }
+  width: 20px; }
+  .grid td.covered {
+    border: 2px solid;
+    border-color: #eeeeee #999999 #999999 #eeeeee;
+    background-color: #cccccc;
+    cursor: pointer; }

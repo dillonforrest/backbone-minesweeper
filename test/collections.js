@@ -183,6 +183,15 @@ $(document).on('ready', function () {
 		this.easy.setSquares('easy');
 	});
 
+	test("number of mines in neighborhood is determined", 192, function () {
+		this.easy.findNearbyMines = function (neighbors, shuffled) {
+			ok(true);
+			ok( _.isArray(neighbors) );
+			ok( _.isArray(shuffled) );
+		};
+		this.easy.setSquares('easy');
+	});
+
 	////////////////////////////////////////////////
 	////////////////////////////////////////////////
 
@@ -232,21 +241,55 @@ $(document).on('ready', function () {
 	////////////////////////////////////////////////
 	////////////////////////////////////////////////
 
-	module("`revealSquare` method", {
-		setup    : function () { 
+	module("`findNearbyMines` method", {
+		setup    : function () {
 			createCollections(this);
-			this.originalGet = this.easy.get;
+			this.shuffled = [
+				{ name: 'mine'}, { name: 'empty' }, { name: 'empty' },
+				{ name: 'mine'}, { name: 'empty' }, { name: 'empty' },
+				{ name: 'mine'}, { name: 'empty' }, { name: 'empty' },
+				{ name: 'mine'}, { name: 'empty' }, { name: 'empty' }
+			];
 		},
-		teardown : function () {
-			deleteCollections(this);
-			this.easy.get = this.originalGet;
-		}
+		teardown : function () { deleteCollections(this); }
 	});
 
-	test("returns identity of the square", 1, function () {
-		this.easy.get = function (arg) {
-			if (arg === 'name') { return 'empty'; }
-			if (arg === 'neighbors') { return [1,2,3,4]; }
-		};
+	test("returns the number of mines in your neighborhood", 4, function () {
+		var neighbors = [ 0, 1, 2 ],
+			result = this.easy.findNearbyMines(neighbors, this.shuffled);
+
+		equal(typeof result, 'number');
+		equal(result, 1);
+
+		neighbors = [ 1, 2, 4, 5 ];
+		result = result = this.easy.findNearbyMines(neighbors, this.shuffled);
+		equal(result, 0);
+
+		neighbors = [ 0, 3, 6, 9 ];
+		result = result = this.easy.findNearbyMines(neighbors, this.shuffled);
+		equal(result, 4);
 	});
+
+	////////////////////////////////////////////////
+	////////////////////////////////////////////////
+
+	//module("`revealSquare` method", {
+	//	setup    : function () { 
+	//		createCollections(this);
+	//		this.originalGet = this.easy.get;
+	//	},
+	//	teardown : function () {
+	//		deleteCollections(this);
+	//		this.easy.get = this.originalGet;
+	//	}
+	//});
+
+	//test("returns identity of the square", 1, function () {
+	//	this.easy.get = function (arg) {
+	//		if (arg === 'name') { return 'empty'; }
+	//		if (arg === 'neighbors') { return [1,2,3,4]; }
+	//	};
+
+	//	equal( this.easy.revealSquare(
+	//});
 });

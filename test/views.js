@@ -225,6 +225,7 @@ $(document).on('ready', function () {
 
 		this.view.collection.revealSquare = function () {
 			ok(true);
+			return { html: 'html', css: 'css' };
 		};
 
 		this.view.uncoverSquare( clickEvent );

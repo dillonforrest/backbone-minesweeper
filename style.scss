@@ -73,13 +73,15 @@ body {
 		margin: auto;
 	}
 
-	td.covered {
+	td {
 		height: 20px;
 		width: 20px;
-		border: 2px solid;
-		border-color: $light-grey $dark-grey $dark-grey $light-grey;
-		background-color: $medium-grey;
 
-		cursor: pointer;
+		&.covered {
+			border: 2px solid;
+			border-color: $light-grey $dark-grey $dark-grey $light-grey;
+			background-color: $medium-grey;
+			cursor: pointer;
+		}
 	}
 }

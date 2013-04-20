@@ -9,6 +9,10 @@
 
 		Models = {
 			Square: Backbone.Model.extend({
+				initialize: function () {
+					var numMines = this.get('numMines');
+					if (numMines > 0) { this.set({name: numMines}); }
+				}
 			})
 		};
 
@@ -44,7 +48,7 @@
 							hard         : 480
 						}[level],
 						allSquares = [],
-						i, name, shuffled;
+						i, name, shuffled, sq, neighbors;
 
 					for (i = 0; i < numSquares; i++) {
 						name = ( i < numMines ? 'mine' : 'empty' );
@@ -55,8 +59,11 @@
 					shuffled = _.shuffle(allSquares);
 
 					for (i = 0; i < numSquares; i++) {
-						shuffled[i].id = i;
-						shuffled[i].neighbors = this.getNeighbors(i, level);
+						sq = shuffled[i];
+						sq.id = i;
+						neighbors = this.getNeighbors(i, level);
+						sq.neighbors = neighbors;
+						sq.numMines = this.findNearbyMines(neighbors, shuffled);
 					}
 
 					return shuffled;
@@ -88,10 +95,10 @@
 					else if (id < width) { // is along top edge
 						neighbors = [id - 1, id + 1,
 							id + width - 1, id + width, id + width + 1];
-					} else if (id % 8 === 0) { // is along left edge
+					} else if (id % width === 0) { // is along left edge
 						neighbors = [id - width, id - width + 1,
 							id + 1, id + width, id + width + 1];
-					} else if (id % 8 === 7) { // is along right edge
+					} else if (id % width === width - 1) { // is along right edge
 						neighbors = [id - width - 1, id - width,
 							id - 1, id + width - 1, id + width];
 					} else if (id >= total - width) { // is along bottom edge
@@ -109,7 +116,37 @@
 					return neighbors;
 				},
 
+				findNearbyMines: function (indexes, squares) {
+					return  _.reduce(indexes, function (memo, index) {
+						var neighbor = squares[index], mine;
+						mine = ( neighbor.name === 'mine' ? 1 : 0 );
+						return memo + mine;
+					}, 0);
+				},
+
 				revealSquare: function (id) {
+					var clicked = this.get(id),
+						name = clicked.get('name'),
+						numMines = Number(name),
+						cssSelector;
+
+					if (numMines) {
+						cssSelector = {
+							'1': 'one',
+							'2': 'two',
+							'3': 'three',
+							'4': 'four',
+							'5': 'five',
+							'6': 'six',
+							'7': 'seven',
+							'8': 'eight'
+						}[name.toString()];
+					}
+
+					return {
+						html: ( name === 'empty' ? '' : name ),
+						css: cssSelector
+					};
 				}
 			})
 		};
@@ -141,12 +178,14 @@
 
 				uncoverSquare: function (evt) {
 					var $target = $(evt.currentTarget),
-						id = $target.data('sq');
+						id = $target.data('sq'),
+						revealed;
 
 					evt.preventDefault();
 
 					$target.removeClass('covered');
-					this.collection.revealSquare(id);
+					revealed = this.collection.revealSquare(id);
+					$target.html(revealed.html).addClass(revealed.css);
 				},
 
 				createGrid: function (level) {
