@@ -10,8 +10,11 @@
 		Models = {
 			Square: Backbone.Model.extend({
 				initialize: function () {
-					var numMines = this.get('numMines');
-					if (numMines > 0) { this.set({name: numMines}); }
+					var name = this.get('name'),
+						numMines = this.get('numMines');
+					if (name !== 'mine' && numMines > 0) {
+						this.set({name: numMines});
+					}
 				}
 			})
 		};
