@@ -8,6 +8,14 @@ $light-grey  : #EEEEEE;
 $medium-grey : #CCCCCC;
 $dark-grey   : #999999;
 
+$medium-blue  : #0000CD;
+$forest-green : #228B22;
+$dark-blue    : #00008B;
+$dark-red     : #8B0000;
+$teal         : #008080;
+$royal-purple : #7851A9;
+$black        : #000000;
+
 * {
 	padding: 0px;
 	margin: 0px;
@@ -69,6 +77,9 @@ body {
 }
 
 .grid {
+	font-size: 1.2em;
+	font-weight: bold;
+
 	table {
 		margin: auto;
 	}
@@ -85,4 +96,13 @@ body {
 			cursor: pointer;
 		}
 	}
+
+	.one   { color: $medium-blue; }
+	.two   { color: $forest-green; }
+	.three { color: $red; }
+	.four  { color: $dark-blue; }
+	.five  { color: $dark-red; }
+	.six   { color: $teal; }
+	.seven { color: $royal-purple; }
+	.eight { color: $black; }
 }

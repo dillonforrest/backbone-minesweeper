@@ -273,23 +273,4 @@ $(document).on('ready', function () {
 	////////////////////////////////////////////////
 	////////////////////////////////////////////////
 
-	//module("`revealSquare` method", {
-	//	setup    : function () { 
-	//		createCollections(this);
-	//		this.originalGet = this.easy.get;
-	//	},
-	//	teardown : function () {
-	//		deleteCollections(this);
-	//		this.easy.get = this.originalGet;
-	//	}
-	//});
-
-	//test("returns identity of the square", 1, function () {
-	//	this.easy.get = function (arg) {
-	//		if (arg === 'name') { return 'empty'; }
-	//		if (arg === 'neighbors') { return [1,2,3,4]; }
-	//	};
-
-	//	equal( this.easy.revealSquare(
-	//});
 });

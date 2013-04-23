@@ -144,10 +144,16 @@
 							'7': 'seven',
 							'8': 'eight'
 						}[name.toString()];
+					} else if (name === 'mine') {
+						cssSelector = 'mine';
 					}
 
 					return {
-						html: ( name === 'empty' ? '' : name ),
+						html: (
+							name === 'empty' ? '' :
+							name === 'mine' ? '&#x2600' : // unicode mine
+							name
+						),
 						css: cssSelector
 					};
 				}
