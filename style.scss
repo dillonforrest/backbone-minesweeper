@@ -28,7 +28,7 @@ body {
 }
 
 .center {
-	margin: 150px auto;
+	margin: 100px auto;
 	width: 730px;
 	text-align: center;
 	border: 10px solid $red;
@@ -51,7 +51,7 @@ body {
 		.select {
 			font-size: 1.5em;
 			color: $brown;
-			margin: 50px;
+			margin: 25px;
 		}
 	}
 }
@@ -94,6 +94,10 @@ body {
 			border-color: $light-grey $dark-grey $dark-grey $light-grey;
 			background-color: $medium-grey;
 			cursor: pointer;
+
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
 		}
 	}
 

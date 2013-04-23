@@ -8,7 +8,7 @@ body {
   font: 10px/12px verdana; }
 
 .center {
-  margin: 150px auto;
+  margin: 100px auto;
   width: 730px;
   text-align: center;
   border: 10px solid #cd333e;
@@ -25,7 +25,7 @@ body {
   .center.start-screen .select {
     font-size: 1.5em;
     color: #694b3c;
-    margin: 50px; }
+    margin: 25px; }
 
 .button {
   list-style-type: none;
@@ -55,7 +55,10 @@ body {
     .grid td.covered {
       border-color: #eeeeee #999999 #999999 #eeeeee;
       background-color: #cccccc;
-      cursor: pointer; }
+      cursor: pointer;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none; }
   .grid .one {
     color: #0000cd; }
   .grid .two {

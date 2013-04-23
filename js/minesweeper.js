@@ -188,13 +188,28 @@
 				uncoverSquare: function (evt) {
 					var $target = $(evt.currentTarget),
 						id = $target.data('sq'),
-						revealed;
+						hasShiftKey = evt.shiftKey,
+						revealed = {};
 
 					evt.preventDefault();
 
-					$target.removeClass('covered');
-					revealed = this.collection.revealSquare(id);
+					if (hasShiftKey) {
+						revealed.html = this.toggleFlag($target.html());
+						revealed.css  = '';
+					} else {
+						$target.removeClass('covered');
+						revealed = this.collection.revealSquare(id);
+					}
+
 					$target.html(revealed.html).addClass(revealed.css);
+				},
+
+				toggleFlag: function (html) {
+					return {
+						''  : '!',
+						'!' : '?',
+						'?' : ''
+					}[html];
 				},
 
 				createGrid: function (level) {

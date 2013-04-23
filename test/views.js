@@ -232,4 +232,19 @@ $(document).on('ready', function () {
 
 		ok( ! $div.hasClass('covered') );
 	});
+
+	test("pass `''` to `toggleFlag` returns `!`", 1, function () {
+		var html = this.view.toggleFlag('');
+		equal(html, '!');
+	});
+
+	test("pass `!` to `toggleFlag` returns `?`", 1, function () {
+		var html = this.view.toggleFlag('!');
+		equal(html, '?');
+	});
+
+	test("pass `?` to `toggleFlag` returns `''`", 1, function () {
+		var html = this.view.toggleFlag('?');
+		equal(html, '');
+	});
 });
