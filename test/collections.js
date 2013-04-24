@@ -273,15 +273,4 @@ $(document).on('ready', function () {
 	////////////////////////////////////////////////
 	////////////////////////////////////////////////
 
-	module("`toggleFlag` method", {
-		setup    : function () {
-			createCollections(this);
-			this.originalHtml = $.prototype.html;
-		},
-		teardown : function () {
-			deleteCollections(this);
-			$.prototype.html = this.originalHtml;
-		}
-	});
-
 });

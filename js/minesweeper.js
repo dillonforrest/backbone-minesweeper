@@ -127,11 +127,23 @@
 					}, 0);
 				},
 
-				revealSquare: function (id) {
-					var clicked = this.get(id),
-						name = clicked.get('name'),
-						numMines = Number(name),
-						cssSelector;
+				expandSquares: function (id) {
+					var self = this,
+						getHtmlCss = this.getHtmlCss,
+						neighbors = this.get(id).get('neighbors');
+
+					neighbors.each(function (id) {
+						var neighbor = self.get(id),
+							name = neighbor.get('name'),
+							numMines = Number(name),
+							expanded = getHtmlCss(name, numMines);
+						expanded.id = id;
+						this.trigger('expand', expanded);
+					});
+				},
+
+				getHtmlCss: function (name, numMines) {
+					var html, cssSelector;
 
 					if (numMines) {
 						cssSelector = {
@@ -148,14 +160,24 @@
 						cssSelector = 'mine';
 					}
 
-					return {
-						html: (
-							name === 'empty' ? '' :
-							name === 'mine' ? '&#x2600' : // unicode mine
-							name
-						),
-						css: cssSelector
-					};
+					html = (
+						name === 'empty' ? '' :
+						name === 'mine' ? '&#x2600' : // unicode mine
+						name
+					);
+
+					return { html: html, cssSelector: cssSelector };
+				},
+
+				revealSquare: function (id) {
+					var clicked = this.get(id),
+						name = clicked.get('name'),
+						numMines = Number(name),
+						htmlCss = this.getHtmlCss(name, numMines);
+
+					if ( htmlCss.html === '' ) { this.expandSquares(id); }
+
+					return htmlCss;
 				}
 			})
 		};
@@ -243,6 +265,7 @@
 					this.$el.mustache('game', {});
 					this.$el.find('.grid').html(this.createGrid(level));
 					$app.html(this.el);
+					this.listenTo();
 					return this;
 				}
 			}),

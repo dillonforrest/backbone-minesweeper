@@ -185,6 +185,14 @@ $(document).on('ready', function () {
 		this.view.render('easy');
 	});
 
+	test("`render` will let view listen to collection", 1, function () {
+		this.view.listenTo = function () {
+			ok(true);
+		};
+
+		this.view.render();
+	});
+
 	test("`createGrid` makes an 8x8 table for easy levels", 2, function () {
 		var table = this.view.createGrid('easy'),
 			$rows = $(table).find('tr');
