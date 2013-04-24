@@ -9,6 +9,7 @@
 
 		Models = {
 			Square: Backbone.Model.extend({
+				defaults: { 'isCovered': true },
 				initialize: function () {
 					var name = this.get('name'),
 						numMines = this.get('numMines');
@@ -132,13 +133,21 @@
 						getHtmlCss = this.getHtmlCss,
 						neighbors = this.get(id).get('neighbors');
 
-					neighbors.each(function (id) {
-						var neighbor = self.get(id),
-							name = neighbor.get('name'),
+					_.each(neighbors, function (neighbor) {
+						var sq = self.get(neighbor),
+							name = sq.get('name'),
+							isNotMine = ( name !== 'mine' ),
+							isEmpty = ( name === 'empty' ),
+							isCovered = sq.get('isCovered'),
 							numMines = Number(name),
 							expanded = getHtmlCss(name, numMines);
-						expanded.id = id;
-						this.trigger('expand', expanded);
+
+						if ( isNotMine && isCovered ) {
+							expanded.id = neighbor;
+							sq.set({isCovered: false});
+							self.trigger('expand', expanded);
+							if (isEmpty) { self.expandSquares(neighbor); }
+						}
 					});
 				},
 
@@ -175,6 +184,7 @@
 						numMines = Number(name),
 						htmlCss = this.getHtmlCss(name, numMines);
 
+					clicked.set({isCovered: false});
 					if ( htmlCss.html === '' ) { this.expandSquares(id); }
 
 					return htmlCss;
@@ -187,8 +197,9 @@
 				attributes: { id: 'game-view' },
 
 				events: {
-					'click .button.go-back'  : 'goToStartScreen',
-					'click .grid td.covered' : 'uncoverSquare',
+					'click .button.go-back'    : 'goToStartScreen',
+					'click .grid td.covered'   : 'uncoverSquare',
+					'click .grid td.uncovered' : 'expand'
 				},
 
 				initialize: function (opts) {
@@ -207,6 +218,12 @@
 					return new Views.StartGame();
 				},
 
+				expand: function (evt) {
+					var id = $(evt.currentTarget).data('sq');
+					evt.preventDefault();
+					this.collection.expandSquares(id);
+				},
+
 				uncoverSquare: function (evt) {
 					var $target = $(evt.currentTarget),
 						id = $target.data('sq'),
@@ -223,7 +240,17 @@
 						revealed = this.collection.revealSquare(id);
 					}
 
-					$target.html(revealed.html).addClass(revealed.css);
+					$target.html(revealed.html)
+						.addClass(revealed.css + ' uncovered');
+				},
+
+				uncoverExpanded: function (opt) {
+					var $target = this.$el.find('[data-sq="' + opt.id + '"]');
+					if ( ! $target.html() ) {
+						$target.html(opt.html)
+							.addClass(opt.cssSelector + ' uncovered')
+							.removeClass('covered');
+					}
 				},
 
 				toggleFlag: function (html) {
@@ -265,7 +292,7 @@
 					this.$el.mustache('game', {});
 					this.$el.find('.grid').html(this.createGrid(level));
 					$app.html(this.el);
-					this.listenTo();
+					this.listenTo(this.collection, 'expand', this.uncoverExpanded);
 					return this;
 				}
 			}),
