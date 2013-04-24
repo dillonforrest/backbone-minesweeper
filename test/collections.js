@@ -273,4 +273,20 @@ $(document).on('ready', function () {
 	////////////////////////////////////////////////
 	////////////////////////////////////////////////
 
+	module("`flagSquare` method", {
+		setup    : function () { createCollections(this); },
+		teardown : function () { deleteCollections(this); }
+	});
+
+	test("if html is `!`, set model flag to true", 1, function () {
+		this.easy.flagSquare(0, '!');
+		ok( this.easy.get(0).get('isFlagged') );
+	});
+
+	test("if html is '?' or '', set model flag to false", 2, function () {
+		this.easy.flagSquare(0, '?');
+		equal( this.easy.get(0).get('isFlagged'), false );
+		this.easy.flagSquare(0, '');
+		equal( this.easy.get(0).get('isFlagged'), false );
+	});
 });

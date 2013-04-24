@@ -128,6 +128,23 @@
 					}, 0);
 				},
 
+				checkNeighbors: function (id) {
+					var self = this,
+						sq = this.get(id),
+						neighbors = sq.get('neighbors'),
+						grouped;
+
+					grouped = _.groupBy(neighbors, function (neighbor) {
+						var nearby = self.get(neighbor);
+						return nearby.get('isFlagged') ? 'flagged' : 'unflagged';
+					});
+
+					if ( grouped.flagged.length === sq.get('numMines') ) {
+						sq.set({neighbors: grouped.unflagged});
+						this.expandSquares(id);
+					}
+				},
+
 				expandSquares: function (id) {
 					var self = this,
 						getHtmlCss = this.getHtmlCss,
@@ -188,6 +205,10 @@
 					if ( htmlCss.html === '' ) { this.expandSquares(id); }
 
 					return htmlCss;
+				},
+
+				flagSquare: function (id, html) {
+					this.get(id).set({ isFlagged: (html === '!') });
 				}
 			})
 		};
@@ -221,7 +242,7 @@
 				expand: function (evt) {
 					var id = $(evt.currentTarget).data('sq');
 					evt.preventDefault();
-					this.collection.expandSquares(id);
+					this.collection.checkNeighbors(id);
 				},
 
 				uncoverSquare: function (evt) {
@@ -235,6 +256,7 @@
 					if (hasShiftKey) {
 						revealed.html = this.toggleFlag($target.html());
 						revealed.css  = '';
+						this.collection.flagSquare(id, revealed.html);
 					} else {
 						$target.removeClass('covered');
 						revealed = this.collection.revealSquare(id);
