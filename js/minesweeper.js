@@ -159,14 +159,15 @@
 					_.each(neighbors, function (neighbor) {
 						var sq = self.get(neighbor),
 							name = sq.get('name'),
-							//isNotMine = ( name !== 'mine' ),
 							isEmpty = ( name === 'empty' ),
 							isCovered = sq.get('isCovered'),
 							numMines = Number(name),
 							expanded = getHtmlCss(name, numMines);
 
-						//if ( isNotMine && isCovered ) {
 						if (isCovered) {
+							if (name === 'mine') {
+								self.detonateMines();
+							}
 							expanded.id = neighbor;
 							sq.set({isCovered: false});
 							self.trigger('expand', expanded);
@@ -190,7 +191,7 @@
 							'8': 'eight'
 						}[name.toString()];
 					} else if (name === 'mine') {
-						cssSelector = 'mine';
+						cssSelector = 'exploded';
 					}
 
 					html = (
@@ -202,6 +203,19 @@
 					return { html: html, cssSelector: cssSelector };
 				},
 
+				detonateMines: function () {
+					var self = this;
+					this.each(function (sq) {
+						var isMine = (sq.get('name') === 'mine'),
+							isCovered = sq.get('isCovered'),
+							isFlagged = sq.get('isFlagged');
+						if (isMine && isCovered && !isFlagged) {
+							self.trigger('explode', sq.id);
+						}
+					});
+					this.trigger('done');
+				},
+
 				revealSquare: function (id) {
 					var clicked = this.get(id),
 						name = clicked.get('name'),
@@ -209,7 +223,8 @@
 						htmlCss = this.getHtmlCss(name, numMines);
 
 					clicked.set({isCovered: false});
-					if ( htmlCss.html === '' ) { this.expandSquares(id); }
+					if (htmlCss.html === '') { this.expandSquares(id); }
+					if (name === 'mine') { this.detonateMines(); }
 
 					return htmlCss;
 				},
@@ -282,6 +297,12 @@
 					}
 				},
 
+				showMine: function (id) {
+					var $target = this.$el.find('[data-sq="' + id + '"]');
+					$target.html('&#x2600');
+					this.$el.find('table').addClass('game-over');
+				},
+
 				toggleFlag: function (html) {
 					return {
 						''  : '!',
@@ -317,11 +338,22 @@
 					return html += '</table>';
 				},
 
+				finishGame: function () {
+					var self = this;
+					this.undelegateEvents();
+					this.$el.find('.go-back').on('click', function (e) {
+						self.goToStartScreen(e);
+					});
+				},
+
 				render: function (level) {
+					var coll = this.collection;
 					this.$el.mustache('game', {});
 					this.$el.find('.grid').html(this.createGrid(level));
 					$app.html(this.el);
-					this.listenTo(this.collection, 'expand', this.uncoverExpanded);
+					this.listenTo(coll, 'explode', this.showMine);
+					this.listenTo(coll, 'expand', this.uncoverExpanded);
+					this.listenTo(coll, 'done', this.finishGame);
 					return this;
 				}
 			}),

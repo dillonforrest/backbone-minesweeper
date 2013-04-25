@@ -47,16 +47,18 @@ body {
 		margin: 40px 0px;
 	}
 
-	.select {
-		font-size: 1.5em/2em;
-		color: $brown;
-		margin: 25px;
-	}
+	&.start-screen {
+		.select {
+			font-size: 1.5em;
+			color: $brown;
+			margin: 25px;
 
-	.shift {
-		color: $blue;
-		font-weight: bold;
-		text-transform: uppercase;
+			.shift {
+				color: $blue;
+				font-weight: bold;
+				text-transform: uppercase;
+			}
+		}
 	}
 }
 
@@ -86,6 +88,10 @@ body {
 
 	table {
 		margin: auto;
+
+		&.game-over td {
+			cursor: default !important;
+		}
 	}
 
 	td {
@@ -93,15 +99,23 @@ body {
 		width: 20px;
 		border: 2px solid;
 		border-color: $yellow;
+		cursor: pointer;
+
+		&.exploded {
+			color: $red;
+		}
 
 		&.covered {
 			border-color: $light-grey $dark-grey $dark-grey $light-grey;
 			background-color: $medium-grey;
-			cursor: pointer;
 
 			-moz-user-select: none;
 			-webkit-user-select: none;
 			-ms-user-select: none;
+		}
+
+		&.undefined {
+			cursor: default;
 		}
 	}
 

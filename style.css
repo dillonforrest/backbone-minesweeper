@@ -22,14 +22,14 @@ body {
     font-size: 4em;
     color: #694b3c;
     margin: 40px 0px; }
-  .center .select {
-    font-size: 1.5em/2em;
+  .center.start-screen .select {
+    font-size: 1.5em;
     color: #694b3c;
     margin: 25px; }
-  .center .shift {
-    color: #00a0b0;
-    font-weight: bold;
-    text-transform: uppercase; }
+    .center.start-screen .select .shift {
+      color: #00a0b0;
+      font-weight: bold;
+      text-transform: uppercase; }
 
 .button {
   list-style-type: none;
@@ -51,18 +51,24 @@ body {
   font-weight: bold; }
   .grid table {
     margin: auto; }
+    .grid table.game-over td {
+      cursor: default !important; }
   .grid td {
     height: 20px;
     width: 20px;
     border: 2px solid;
-    border-color: #edca51; }
+    border-color: #edca51;
+    cursor: pointer; }
+    .grid td.exploded {
+      color: #cd333e; }
     .grid td.covered {
       border-color: #eeeeee #999999 #999999 #eeeeee;
       background-color: #cccccc;
-      cursor: pointer;
       -moz-user-select: none;
       -webkit-user-select: none;
       -ms-user-select: none; }
+    .grid td.undefined {
+      cursor: default; }
   .grid .one {
     color: #0000cd; }
   .grid .two {
