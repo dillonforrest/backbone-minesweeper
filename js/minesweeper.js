@@ -132,14 +132,20 @@
 					var self = this,
 						sq = this.get(id),
 						neighbors = sq.get('neighbors'),
-						grouped;
+						canExpand, grouped;
 
 					grouped = _.groupBy(neighbors, function (neighbor) {
 						var nearby = self.get(neighbor);
-						return nearby.get('isFlagged') ? 'flagged' : 'unflagged';
+						return (
+							nearby.get('isFlagged') ? 'flagged' :
+							nearby.get('isCovered') ? 'unflagged' :
+							'uncovered'
+						);
 					});
 
-					if ( grouped.flagged.length === sq.get('numMines') ) {
+					canExpand = ( grouped.flagged &&
+						grouped.flagged.length === sq.get('numMines') );
+					if (canExpand) {
 						sq.set({neighbors: grouped.unflagged});
 						this.expandSquares(id);
 					}
@@ -153,13 +159,14 @@
 					_.each(neighbors, function (neighbor) {
 						var sq = self.get(neighbor),
 							name = sq.get('name'),
-							isNotMine = ( name !== 'mine' ),
+							//isNotMine = ( name !== 'mine' ),
 							isEmpty = ( name === 'empty' ),
 							isCovered = sq.get('isCovered'),
 							numMines = Number(name),
 							expanded = getHtmlCss(name, numMines);
 
-						if ( isNotMine && isCovered ) {
+						//if ( isNotMine && isCovered ) {
+						if (isCovered) {
 							expanded.id = neighbor;
 							sq.set({isCovered: false});
 							self.trigger('expand', expanded);
@@ -263,7 +270,7 @@
 					}
 
 					$target.html(revealed.html)
-						.addClass(revealed.css + ' uncovered');
+						.addClass(revealed.cssSelector + ' uncovered');
 				},
 
 				uncoverExpanded: function (opt) {

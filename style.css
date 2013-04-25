@@ -22,10 +22,14 @@ body {
     font-size: 4em;
     color: #694b3c;
     margin: 40px 0px; }
-  .center.start-screen .select {
-    font-size: 1.5em;
+  .center .select {
+    font-size: 1.5em/2em;
     color: #694b3c;
     margin: 25px; }
+  .center .shift {
+    color: #00a0b0;
+    font-weight: bold;
+    text-transform: uppercase; }
 
 .button {
   list-style-type: none;

@@ -47,12 +47,16 @@ body {
 		margin: 40px 0px;
 	}
 
-	&.start-screen {
-		.select {
-			font-size: 1.5em;
-			color: $brown;
-			margin: 25px;
-		}
+	.select {
+		font-size: 1.5em/2em;
+		color: $brown;
+		margin: 25px;
+	}
+
+	.shift {
+		color: $blue;
+		font-weight: bold;
+		text-transform: uppercase;
 	}
 }
 
