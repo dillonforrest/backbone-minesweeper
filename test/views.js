@@ -185,9 +185,9 @@ $(document).on('ready', function () {
 		this.view.render('easy');
 	});
 
-	test("`render` will let view listen to collection", 2, function () {
+	test("`render` will let view listen to collection", 3, function () {
 		this.view.listenTo = function () {
-			ok(true, "this should run twice");
+			ok(true, "this should run three times");
 		};
 
 		this.view.render();
